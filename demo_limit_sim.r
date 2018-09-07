@@ -48,14 +48,14 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
 ## paramters of logit distribution from confidence intervals  
   mort.df$mu = 0
   mort.df$sigma = 0
+  
   for (x in 1:nrow(mort.df)) {
     theta <- twCoefLogitnormMLE(mort.df$estimate[x], mort.df$ucl[x])
     mort.df$mu[x] =  theta[,1]
     mort.df$sigma[x] =  theta[,2]
   }
   
-  
-  
+
   ############ Define values of some model parameters not included in the function
   
   
@@ -65,11 +65,9 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
   pheno.pos = 1  # this means that the first row is the phenotype of the individuals
   age.pos = 2  # second row is the age of the individual
 
-  
   length_prop = 2 #  length of entities of individual vector excluding loci (phenotipic value, age, maturity status, and size are the top rows)
   
   area.pop <- matrix(0,length_prop,S) ##  matrix space area.pop of S elements, 
-  
   
   init_pos = sample(1:ncol(area.pop), size = N, replace = F)
   
@@ -78,23 +76,23 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
   area.pop[age.pos,init_pos] = initial_ages # assign ages to individuals
   area.pop[pheno.pos,init_pos] = 1
   
-  # multiplication factor for density stream
+  # multiplication factor for density stream (passing from numbers to densities in number per hectar)
   
   if(Stream == "LIdri_MT" | Stream == "LIdri_RT") {
     mult_fact_stream = 6.61
-    } else if (Stream == "UIdri_MT") {
+    } 
+  if (Stream == "UIdri_MT") {
       mult_fact_stream = 6.01 
-      } else if (Stream == "UVol_BT") {
+      } 
+  if (Stream == "UVol_BT") {
         mult_fact_stream = 13.4
-      } else {
+      } 
+  if (!Stream %in% c("LIdri_MT","LIdri_RT","UIdri_MT","UVol_BT")) {
         print("No suitable stream. Using LIdri_MT as default")  
         mult_fact_stream = 6.61}
   
  ##### 
   
-  
-  
- 
   
   #####create vectors and matrix for later use
 
@@ -114,16 +112,12 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
     
     print(i)  # prints time-steps
     
- 
     
-    ### check if the population went extinct ####
-    
+    ### check if the population went extinct - if it is, break ####
     
     if(length(area.pop[1,area.pop[1,]!=0])<2){  ##is population extinct?  
       print(paste("Extinct at year", i)) #prints the year of extinction
       extinct = 1 # when an individual is dead the first column is 0
-      
-      
       break}   #close for to check for extinction
     
     ######################################  
@@ -140,14 +134,14 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
     ############ increase age by 1 if t>1 ##########
     
     if (i>1) {
-      area.pop[age.pos,area.pop[pheno.pos,]!=0] = area.pop[age.pos,area.pop[pheno.pos,]!=0] + 1 
-     
-    }
+      area.pop[age.pos,area.pop[pheno.pos,]!=0] = 
+        area.pop[age.pos,area.pop[pheno.pos,]!=0] + 1 
+     }
+    
     ###########
     
     
-  
-    ############### MEAN AND SD OF AGE #####
+    ############### MEAN AND SD OF AGE in the whole population #####
     
     who = which(area.pop[pheno.pos,]!=0)  # where the individuals are (because empty columns have zero in first position)
     mean.var.age[i,1] = mean(area.pop[age.pos,who]) #mean age
@@ -155,7 +149,7 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
     
     
     
-    ############mortality##############
+    ############ mortality ##############
     
     
     who_tag = as.matrix(which(area.pop[pheno.pos,]!=0 & area.pop[age.pos,]>=2)) # where the individuals are (because empty columns have zero in first position) 
@@ -169,10 +163,11 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
       who_tag <- who_tag[which(who_tag[,2] < r),]
       if (length(who_tag) > 0) {
         
-        area.pop[,who_tag$V1] <- 0
+        area.pop[,who_tag$V1] = 0
   
       }
     }
+    
     rm(who_tag)
     
   # survival from 0+ to 1+  
@@ -181,8 +176,8 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
     if (length(who_tag) > 0) {
       who_tag = as.tibble(cbind(who_tag,runif(nrow(who_tag))))
       if (Stream %in% c("LIdri_MT", "UIdri_MT")) {
-      r =  1 - exp(3.2341 - 0.7426 * log(dens[max((i-1),1)] + 0.1))  # 1- survival = mortality
-      #  r =  1 - (exp(3.2341 - 0.7 * log(dens[max((i-1),1)] + 0.1)))*0.9  # 1- survival = mortality
+      r =  1 - exp(3.2341 - 0.7426 * log(dens[max((i-1),1)] + 0.1))  # 1- survival = mortality (hard coded the log-linear model)
+      
       } else if (Stream == "UVol_BT") {
       r = 1 - sample(uppvol.first.year, size = 1) # 1- survival = mortality
       } else if (Stream == "LIdri_RT") {
@@ -326,7 +321,7 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
   
   
   
-  ### For the exticnt populations, I want only the vectors up to year of exinction ####
+  ### For the extinct populations, I want only the vectors up to year of exinction ####
   
   dens = dens[1:year]
   vettad = vettad[1:year]
@@ -368,7 +363,8 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
       dens_max = NA
       dens_min = NA}
   
- # list of results, uncomment "plot_pop" = pop_gg only for single simulations
+ # list of results, uncomment "plot_pop" = pop_gg only for single simulations - the object created is otherwise too big
+  
    ris.list = list("extinct"=extinct, 
                   "yearextinct" = i-1,
                   "popsize"= vettad, 

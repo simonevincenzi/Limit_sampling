@@ -1,7 +1,7 @@
 # source the population dynamics script
 source("demo_limit_sim.r")
 
-test = demo_limit_sim.f(S = 15000,N = 500,iter = 110, Stream = "UVol_BT",mort.list = uppvol_surv_06_14.list, year_max = 2008)
+#test = demo_limit_sim.f(S = 15000,N = 500,iter = 110, Stream = "UVol_BT",mort.list = uppvol_surv_06_14.list, year_max = 2008)
 
 ###### values of parameters to be simulated
 

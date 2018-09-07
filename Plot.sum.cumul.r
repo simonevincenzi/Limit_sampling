@@ -6,7 +6,9 @@ loidri_df = loidri_df %>%
   arrange(.,Mark_cor,Date)
 
 
-uppidri_df =  read_csv("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv") 
+uppidri_df =  fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv")
+
+#uppidri_df =  read_csv("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv") 
 uppidri_df$Date = as.Date(uppidri_df$Date,format = "%m/%d/%Y") # Y is year with century
 uppidri_df = uppidri_df %>%
   arrange(.,Mark_cor,Date)
