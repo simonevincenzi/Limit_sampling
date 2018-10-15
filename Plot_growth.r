@@ -1,5 +1,31 @@
 library(tidyverse)
 library(cowplot)
+library(data.table)
+
+## Read data ##
+
+loidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/loidri_df_pieced.csv")) 
+loidri_df$Date = as.Date(loidri_df$Date,format = "%m/%d/%Y") # Y is year with century
+loidri_df = loidri_df %>%
+  arrange(.,Mark_cor,Date)
+
+
+uppidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv")) 
+uppidri_df$Date = as.Date(uppidri_df$Date,format = "%m/%d/%Y") # Y is year with century
+uppidri_df = uppidri_df %>%
+  arrange(.,Mark_cor,Date)
+
+
+rtidri_df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/rtidri_df_pieced.csv"))
+
+
+uppvol.df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppvol_2015_complete.csv")) 
+
+
+loidri_growth_all_df = readRDS("data/loidri_growth_all_df.RDS")
+uppidri_growth_all_df = readRDS("data/uppidri_growth_all_df.RDS")
+rtidri_growth_all_df = readRDS("data/rtidri_growth_all_df.RDS")
+uppvol_growth_all_df = readRDS("data/uppvol_growth_all_df.RDS")
 
 ### PLOT
 
@@ -118,7 +144,7 @@ Plot_linf_all = plot_grid(loidri_gr_gg,
                           labels = c("A", "B","C","D"),
                                 nrow = 2, align = "v",hjust = -2.5)
 
-save_plot("Plot_linf_all.pdf", Plot_linf_all,
+save_plot("Plots/Plot_linf_all.pdf", Plot_linf_all,
           ncol = 2, # we're saving a grid plot of 2 columns
           nrow = 2, # and 2 rows
           # each individual subplot should have an aspect ratio of 1.3
@@ -425,7 +451,7 @@ Plot_tr_all = plot_grid(loidri_tr_gg,
                           labels = c("A", "B","C","D"),
                           nrow = 2, align = "v",hjust = -2.5)
 
-save_plot("Plot_tr_all.pdf", Plot_tr_all,
+save_plot("Plots/Plot_tr_all.pdf", Plot_tr_all,
           ncol = 2, # we're saving a grid plot of 2 columns
           nrow = 2, # and 2 rows
           # each individual subplot should have an aspect ratio of 1.3

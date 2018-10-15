@@ -1,6 +1,12 @@
 library(tidyverse)
 library(nlstools)
 
+
+loidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/loidri_df_pieced.csv")) 
+loidri_df$Date = as.Date(loidri_df$Date,format = "%m/%d/%Y") # Y is year with century
+loidri_df = loidri_df %>%
+  arrange(.,Mark_cor,Date)
+
 pop.growth.prep = arrange(loidri_df,Mark_cor,Year,Month)
 
 
@@ -85,7 +91,10 @@ loidri_growth_nls_df$tot_year[j_n] = 1 + (max_year_v[j_n] - min(data_growth$Year
 }
 
 loidri_growth_df = as_tibble(bind_rows(loidri_growth_list))
+
 loidri_growth_all_df = bind_rows(loidri_growth_nls_df,loidri_growth_df)
+
+saveRDS(loidri_growth_all_df, "data/loidri_growth_all_df.RDS")
 
 
 

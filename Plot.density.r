@@ -1,7 +1,7 @@
 library(tidyverse)
 library(cowplot)
-density.idri = readRDS("density.all.idri.RDS")
-density.uppvol = readRDS("density.uppvol.RDS")
+density.idri = readRDS("data/density.all.idri.RDS")
+density.uppvol = readRDS("data/density.uppvol.RDS")
 density.uppvol$Pop = "UVol"
 density.uppidri.vol.df = bind_rows(density.idri,density.uppvol)
 
@@ -23,7 +23,6 @@ colour.axis = "gray20"
 colour.theme = "black"
 colour.axis.line = "gray20"
 colour.line = "gray50"
-label.T = "Heterozygosity"
 max_size_dot = 5
 
 ## Theme to be used for all plots
@@ -124,7 +123,7 @@ Plot_dens_all = plot_grid(loidri_dens_gg,
                           labels = c("A", "B","C","D"),
                           nrow = 2, align = "v",hjust = -2.5)
 
-save_plot("Plot_dens_all.pdf", Plot_dens_all,
+save_plot("Plots/Plot_dens_all.pdf", Plot_dens_all,
           ncol = 2, # we're saving a grid plot of 2 columns
           nrow = 2, # and 2 rows
           # each individual subplot should have an aspect ratio of 1.3

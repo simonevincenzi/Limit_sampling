@@ -1,7 +1,8 @@
 library(tidyverse)
 library(nlstools)
 
-rtidri_df = read_csv("rtidri_df_pieced.csv")
+rtidri_df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/rtidri_df_pieced.csv"))
+
 pop.growth.prep = arrange(rtidri_df,Mark_cor,Year,Month)
 
 # 
@@ -99,6 +100,8 @@ rtidri_growth_nls_df$tot_year[j_n] = 1 + (max_year_v[j_n] - min(data_growth$Year
 rtidri_growth_df = as_tibble(bind_rows(rtidri_growth_list))
 
 rtidri_growth_all_df = bind_rows(rtidri_growth_nls_df,rtidri_growth_df)
+
+saveRDS(rtidri_growth_all_df, "data/rtidri_growth_all_df.RDS")
 
 
 

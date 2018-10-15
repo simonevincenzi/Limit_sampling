@@ -1,26 +1,25 @@
 library(tidyverse)
+library(data.table)
 
-loidri_df =  read_csv("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/loidri_df_pieced.csv") 
+loidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/loidri_df_pieced.csv")) 
 loidri_df$Date = as.Date(loidri_df$Date,format = "%m/%d/%Y") # Y is year with century
 loidri_df = loidri_df %>%
   arrange(.,Mark_cor,Date)
 
 
-uppidri_df =  read_csv("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv") 
+uppidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv")) 
 uppidri_df$Date = as.Date(uppidri_df$Date,format = "%m/%d/%Y") # Y is year with century
 uppidri_df = uppidri_df %>%
   arrange(.,Mark_cor,Date)
 
-# download.file("https://raw.githubusercontent.com/simonevincenzi/Heter/master/scripts/uppidri_marked.r", ("uppidri_marked.r"), quiet = FALSE, mode = "w",
-#               cacheOK = TRUE,
-#               extra = getOption("download.file.extra"))
 
-rtidri_df = read_csv("rtidri_df_pieced.csv")
+rtidri_df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/rtidri_df_pieced.csv"))
+  
 
-uppvol.df = read.csv("uppvol_2015_complete.csv",header=T, # read dataset of the population from csv
-                     stringsAsFactors = FALSE,na.strings ="")
+uppvol.df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppvol_2015_complete.csv")) 
+  
 
-library(tidyverse)
+
 
 
 size.title = 15

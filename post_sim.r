@@ -59,13 +59,16 @@ res_df_mean =
               prop_ext_200 = sum(quasi_ext_200)/100)) # %>%
 
 
-obs_pop = filter(density.uppidri.vol.df, Age == 1 & Season == "Autumn") %>%
-  group_by(Pop) %>%
-  summarise(n = n(),
-            mean_dens = mean(Dest),
-            min_dens = min(Dest),
-            max_dens = max(Dest),
-            cv = sd(Dest)/mean(Dest))
+saveRDS(res_df_mean, "data/res_df_mean.RDS")
+
+
+# obs_pop = filter(density.uppidri.vol.df, Age == 1 & Season == "Autumn") %>%
+#   group_by(Pop) %>%
+#   summarise(n = n(),
+#             mean_dens = mean(Dest),
+#             min_dens = min(Dest),
+#             max_dens = max(Dest),
+#             cv = sd(Dest)/mean(Dest))
 
 
 

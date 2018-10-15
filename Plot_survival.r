@@ -1,6 +1,12 @@
 library(tidyverse)
 library(cowplot)
 
+## read data ## 
+
+rtidri_mod_all = readRDS("data/rtidri_mod_all.RDS")
+loidri_mod_all = readRDS("data/loidri_mod_all.RDS")
+uppidri_mod_all = readRDS("data/uppidri_mod_all.RDS")
+uppvol_mod_all = readRDS("data/uppvol_mod_all.RDS")
 
 ### PLOT
 
@@ -20,7 +26,6 @@ colour.axis = "gray20"
 colour.theme = "black"
 colour.axis.line = "gray20"
 colour.line = "gray50"
-label.T = "Heterozygosity"
 max_size_dot = 5
 
 ## Theme to be used for all plots
@@ -143,7 +148,7 @@ Plot_surv_all = plot_grid(loidri_surv_gg,
                           labels = c("A", "B","C","D"),
                           nrow = 2, align = "v",hjust = -2.5)
 
-save_plot("Plot_surv_all.pdf", Plot_surv_all,
+save_plot("Plots/Plot_surv_all.pdf", Plot_surv_all,
           ncol = 2, # we're saving a grid plot of 2 columns
           nrow = 2, # and 2 rows
           # each individual subplot should have an aspect ratio of 1.3

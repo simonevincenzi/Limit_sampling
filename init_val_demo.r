@@ -1,3 +1,5 @@
+library(parallel)
+
 # source the population dynamics script
 source("demo_limit_sim.r")
 
@@ -15,6 +17,8 @@ year_max.vett = c(2006,2008,2010,2012,2014)
 
 ###### remember that the columns must be named!!!
 
+# create a matrix with the values of model's parameters
+
 dataforpar = expand.grid(S = S.vett, N = N.vett ,iter = iter.vett , Stream = Stream.vett, mort.list = mort.list.vett, year_max = year_max.vett)
 
 dataforpar = as.matrix(do.call("rbind", rep(list(dataforpar), 100)))
@@ -25,16 +29,16 @@ for (i in 1:nrow(dataforpar)) {
   y[[i]] = as.list(dataforpar[i,])
 
      if (y[[i]]$mort.list == 1) {
-       y[[i]]$mort.list = readRDS("data/uppidri_surv_06_14.list")
+       y[[i]]$mort.list = readRDS("data/uppidri_surv_06_14.list.RDS")
        y[[i]]$Stream = "UIdri_MT"
       } else if (y[[i]]$mort.list == 2) {
-      y[[i]]$mort.list = readRDS("data/loidri_surv_06_14.list")
+      y[[i]]$mort.list = readRDS("data/loidri_surv_06_14.list.RDS")
       y[[i]]$Stream = "LIdri_MT"
       } else if (y[[i]]$mort.list == 3) {
-        y[[i]]$mort.list = readRDS("data/rtidri_surv_06_14.list")
+        y[[i]]$mort.list = readRDS("data/rtidri_surv_06_14.list.RDS")
         y[[i]]$Stream = "LIdri_RT"
       } else if (y[[i]]$mort.list == 4) {
-        y[[i]]$mort.list = readRDS("data/uppvol_surv_06_14.list")
+        y[[i]]$mort.list = readRDS("data/uppvol_surv_06_14.list.RDS")
         y[[i]]$Stream = "UVol_BT"}
 }
 

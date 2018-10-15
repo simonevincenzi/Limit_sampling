@@ -14,10 +14,12 @@ rm(data.marked)
 rm(data.prov)
 
 
-uppvol.df = read.csv("uppvol_2015_complete.csv",header=T, # read dataset of the population from csv
-                     stringsAsFactors = FALSE,na.strings ="")
+# uppvol.df = read.csv("uppvol_2015_complete.csv",header=T, # read dataset of the population from csv
+#                      stringsAsFactors = FALSE,na.strings ="")
 
-data_df_complete = filter (uppvol.df,Cohort!="C15" & !is.na(Mark)) %>%  arrange(., Mark, Year, Month)
+uppvol.df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppvol_2015_complete.csv"))
+
+data_df_complete = filte (uppvol.df,Cohort!="C15" & !is.na(Mark)) %>%  arrange(., Mark, Year, Month)
 
 
 ### C14 would be of 0+ 
@@ -210,4 +212,4 @@ mod_list[[j_n]] = list("mod_cost" = predict(test[[pos_best_const]], ddl = test.d
 }
 
 uppvol_surv_06_14.list = mod_list
-saveRDS(uppvol_surv_06_14.list,"uppvol_surv_06_14.list.RDS")
+saveRDS(uppvol_surv_06_14.list,"data/uppvol_surv_06_14.list.RDS")

@@ -3,6 +3,8 @@ library(grid)
 library(ggplot2)
 
 
+uppvol.df = as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppvol_2015_complete.csv")) 
+
 pop.growth.prep = as_tibble(arrange(uppvol.df,Mark,Year,Month))
 
 # 
@@ -98,6 +100,8 @@ for (j_n in 1:length(max_year_v)) {
 uppvol_growth_df = as_tibble(bind_rows(uppvol_growth_list))
 
 uppvol_growth_all_df = bind_rows(uppvol_growth_nls_df,uppvol_growth_df)
+
+saveRDS(uppvol_growth_all_df, "data/uppvol_growth_all_df.RDS")
 
 
 

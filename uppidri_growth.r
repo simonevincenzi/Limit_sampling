@@ -1,6 +1,11 @@
 library(tidyverse)
 library(nlstools)
 
+uppidri_df =  as.data.frame(fread("https://raw.githubusercontent.com/simonevincenzi/Heter/master/raw_data/uppidri_df_pieced.csv")) 
+uppidri_df$Date = as.Date(uppidri_df$Date,format = "%m/%d/%Y") # Y is year with century
+uppidri_df = uppidri_df %>%
+  arrange(.,Mark_cor,Date)
+
 pop.growth.prep = arrange(uppidri_df,Mark_cor,Year,Month)
 
 
@@ -35,7 +40,8 @@ uppidri_growth_nls_df = tibble(linf = rep(0,length(max_year_v)),
 for (j_n in 1:length(max_year_v)) {
 
 if ("synth.list.3" %in% ls()) rm(synth.list.3)
-rm(data_growth)  
+
+  rm(data_growth)  
 
 data_growth = pop.growth.prep %>%
   filter(.,!is.na(Mark_cor), Month == 9 , Year <= max_year_v[j_n], Age_cor >=1) %>%
@@ -85,7 +91,9 @@ uppidri_growth_nls_df$tot_year[j_n] = 1 + (max_year_v[j_n] - min(data_growth$Yea
 }
 
 uppidri_growth_df = as_tibble(bind_rows(uppidri_growth_list))
+
 uppidri_growth_all_df = bind_rows(uppidri_growth_nls_df,loidri_growth_df)
 
+saveRDS(uppidri_growth_all_df, "data/uppidri_growth_all_df.RDS")
 
 

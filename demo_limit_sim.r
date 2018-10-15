@@ -25,10 +25,10 @@ library(rlist)
 # uppvol_surv_06_14.list = readRDS("uppvol_surv_06_14.list.RDS")
 
 
-stock.r.mod = readRDS("data/stock.gam.RDS")
-stock.uppvol = readRDS("data/uppvol_recruit.RDS")
-uppvol.first.year = readRDS("data/uppvol.first.year.RDS")
-rtidri.first.year = readRDS("data/rtidri.first.year.RDS")
+# stock.r.mod = readRDS("data/stock.gam.RDS")
+# stock.uppvol = readRDS("data/uppvol_recruit.RDS")
+# uppvol.first.year = readRDS("data/uppvol.first.year.RDS")
+# rtidri.first.year = readRDS("data/rtidri.first.year.RDS")
 
 
 demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", mort.list = uppidri_surv_06_14.list, year_max = 2008)
@@ -40,6 +40,12 @@ demo_limit_sim.f <- function (S = 1000,N = 300,iter = 30, Stream = "UIdri_MT", m
   options(error=recover)
   
   options(warn = 0) ### stop when there is warning when warn = 2
+  
+  
+  stock.r.mod = readRDS("data/stock.gam.RDS")
+  stock.uppvol = readRDS("data/uppvol_recruit.RDS")
+  uppvol.first.year = readRDS("data/uppvol.first.year.RDS")
+  rtidri.first.year = readRDS("data/rtidri.first.year.RDS")
   
   ## create the data frame of sampling-specific survival probabilities from the list of survival models 
   pos_year = list.which(mort.list, mod_cost$final_year == year_max)

@@ -1,6 +1,8 @@
 library(tidyverse)
 library(cowplot)
 
+res_df_mean = readRDS("data/res_df_mean.RDS")
+
 leg.x = 0.1
 leg.y = 0.25
 source("theme_plot.r")
@@ -67,7 +69,7 @@ Plot_dens_sim = plot_grid(mean_dens_loidri_gg,
                           labels = c("A", "B","C","D"),
                           nrow = 2, align = "v",hjust = -2.5)
 
-save_plot("Plot_dens_sim.pdf", Plot_dens_sim,
+save_plot("Plots/Plot_dens_sim.pdf", Plot_dens_sim,
           ncol = 2, # we're saving a grid plot of 2 columns
           nrow = 2, # and 2 rows
           # each individual subplot should have an aspect ratio of 1.3
